@@ -2,3 +2,4 @@ im <i class="fa fa-chain-brok" aria-hidden="true"></i>
 sumedha give food to orphanage
 git config --global user.name "Nathaniel Yeoh"
 git config --global user.email "1201203183@student.mmu.edu.my"
+sumedha cook food
