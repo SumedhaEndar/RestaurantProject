@@ -1,15 +1,16 @@
 <?php
-// reservation.php
 require_once '../config.php';
 session_start();
+
+date_default_timezone_set('Asia/Kuala_Lumpur');
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Get the values from the form
     $customer_name = $_POST["customer_name"];
     $table_id = intval($_POST["table_id"]);
     $reservation_time = $_POST["reservation_time"];
     $reservation_date = $_POST["reservation_date"];
     $special_request = $_POST["special_request"];
-    
+
     $select_query_capacity = "SELECT capacity FROM restaurant_tables WHERE table_id='$table_id';";
     $results_capacity = mysqli_query($link, $select_query_capacity);
 
@@ -17,20 +18,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $row = mysqli_fetch_assoc($results_capacity);
         $head_count = $row['capacity'];
 
-        $reservation_id = intval($reservation_time)  . intval($reservation_date)  . intval($table_id);
+        $insert_query1 = "INSERT INTO Reservations (customer_name, table_id, reservation_time, reservation_date, head_count, special_request) 
+                          VALUES ('$customer_name', '$table_id', '$reservation_time', '$reservation_date', '$head_count', '$special_request');";
+        
+        if (mysqli_query($link, $insert_query1)) {
+            $reservation_id = mysqli_insert_id($link);
 
-        // Prepare the SQL query for insertion
-        $insert_query1 = "INSERT INTO Reservations (reservation_id, customer_name, table_id, reservation_time, reservation_date, head_count, special_request) 
-                        VALUES ('$reservation_id', '$customer_name', '$table_id', '$reservation_time', '$reservation_date', '$head_count', '$special_request');";
-        $insert_query2 = "INSERT INTO Table_Availability (availability_id, table_id, reservation_date, reservation_time, status) 
-                        VALUES ('$reservation_id', '$table_id', '$reservation_date', '$reservation_time',  'no');";
-        mysqli_query($link, $insert_query1);
-        mysqli_query($link, $insert_query2);
+                $insert_query2 = "INSERT INTO Table_Availability (table_id, reservation_date, reservation_time, status) 
+                              VALUES ('$table_id', '$reservation_date', '$reservation_time', 'no');";
+            mysqli_query($link, $insert_query2);
 
-        $_SESSION['customer_name'] = $customer_name;
-        header("Location: reservePage.php?reservation=success&reservation_id=$reservation_id");
+            $_SESSION['customer_name'] = $customer_name;
+           header("Location: reservationRedirect.php?reservation_id=$reservation_id");
+            exit();
+        } else {
+            echo "Error inserting reservation: " . mysqli_error($link);
+        }
     } else {
-        // Handle the case where the query failed
         echo "Error fetching table capacity: " . mysqli_error($link);
     }
 }

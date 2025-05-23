@@ -1,6 +1,8 @@
 <?php
 require('../../adminSide/posBackend/fpdf186/fpdf.php');
 require_once '../config.php';
+session_start();
+date_default_timezone_set('Asia/Kuala_Lumpur');
 
 $reservation_id = $_GET['reservation_id'] ?? 1;
 
@@ -9,12 +11,10 @@ function getReservationInfoById($link, $reservation_id) {
     $query = "SELECT * FROM Reservations WHERE reservation_id='$reservation_id'";
     $result = mysqli_query($link, $query);
 
-    if ($result) {
-        $reservationInfo = mysqli_fetch_assoc($result);
-        return $reservationInfo;
-    } else {
-        return null;
+    if ($result && mysqli_num_rows($result) > 0) {
+        return mysqli_fetch_assoc($result);
     }
+    return null;
 }
 
 // Fetch reservation information based on the reservation ID
@@ -24,32 +24,19 @@ if ($reservationInfo) {
     // Create a PDF using FPDF
     class PDF extends FPDF {
         function Header() {
-            // Set font and size for the logo text
             $this->SetFont('Arial', 'B', 20);
-
-            // Create the logo text
-            $logoText = "JOHNNY'S DINING & BAR";
-            
-            // Add a link-like style (you cannot create actual HTML links in PDF)
-            $this->SetTextColor(0, 0, 0); // Set the text color to blue
-            $this->Cell(0, 10, $logoText, 0, 1, 'C', false, 'http://localhost/RestaurantProject/customerSide/home/home.php#hero');
-            //Change project name
-            $this->SetTextColor(0); // Reset text color to default
-
-            // Add space
+            $this->Cell(0, 10, "JOHNNY'S DINING & BAR", 0, 1, 'C');
             $this->Ln(10);
-
-            // Set font and size for "Reservation Information" text
             $this->SetFont('Arial', 'B', 16);
             $this->Cell(0, 10, 'Reservation Information', 1, 1, 'C');
         }
     }
 
-
+    // Generate the PDF
     $pdf = new PDF();
     $pdf->AddPage();
     $pdf->SetFont('Arial', '', 12);
-    // Create a table for reservation information
+
     $pdf->Cell(40, 10, 'Reservation ID:', 1);
     $pdf->Cell(150, 10, $reservationInfo['reservation_id'], 1);
     $pdf->Ln();
@@ -75,12 +62,30 @@ if ($reservationInfo) {
     $pdf->Ln();
 
     $pdf->Cell(40, 10, 'Special Request:', 1);
-    $pdf->Cell(150, 10, $reservationInfo['special_request'], 1);
-    $pdf->Ln();
-    
-    
-    $pdf->Output('Reservation-Copy-ID' . $reservationInfo['reservation_id'] . '.pdf', 'D');
+    $pdf->MultiCell(150, 10, $reservationInfo['special_request'], 1);
+    $pdf->Ln(10);
+
+    // Save to temporary file
+    $filename = 'Reservation-Copy-ID' . $reservationInfo['reservation_id'] . '.pdf';
+    $filepath = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $filename;
+    $pdf->Output($filepath, 'F'); // Save PDF temporarily on server
+
+    // Force download
+    header('Content-Type: application/pdf');
+    header('Content-Disposition: attachment; filename="' . $filename . '"');
+    readfile($filepath);
+
+    // Cleanup temporary file
+    unlink($filepath);
+
+    // ✅ After download, auto-redirect back to reservePage
+    echo "<script>
+        setTimeout(function() {
+            window.location.href = 'reservePage.php';
+        }, 500);
+    </script>";
+    exit();
 } else {
-    echo 'Invalid reservation ID or reservation not found.';
+    echo '<p style="color:red; text-align:center; margin-top:40px;">Invalid reservation ID or reservation not found.</p>';
 }
 ?>
