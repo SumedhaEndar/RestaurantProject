@@ -10,7 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST["email"];
     $register_date = $_POST["register_date"];
     $phone_number = $_POST["phone_number"];
-    $password = $_POST["password"];
+    $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
     
     // Prepare the SQL query to check if the account_id already exists
     $check_account_query = "SELECT account_id FROM Accounts WHERE account_id = ?";

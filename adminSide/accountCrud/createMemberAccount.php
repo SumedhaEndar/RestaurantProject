@@ -53,7 +53,7 @@ if (!empty($register_date)) {
     if (empty($_POST['password'])) {
         $password_err = 'Password is required';
     } else {
-        $password = $_POST['password'];
+        $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
     }
 
     // Sanitize membership and staff IDs

@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST["email"];
     $register_date = $_POST["register_date"];
     $phone_number = $_POST["phone_number"];
-    $password = $_POST["password"];
+    $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
     $staff_name = $_POST["staff_name"];
     $role = $_POST["role"];
     $conn = $link;

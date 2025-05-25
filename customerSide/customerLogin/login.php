@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                     
                    // Verify the password
-                    if ($password === $row["password"]) {
+                    if (password_verify($password, $row["password"])) {
                         // Password is correct, start a new session and redirect the user to a dashboard or home page.
                         $_SESSION["loggedin"] = true;
                         $_SESSION["email"] = $email;
