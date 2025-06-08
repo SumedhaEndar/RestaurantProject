@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST["email"];
     $register_date = $_POST["register_date"];
     $phone_number = $_POST["phone_number"];
-    $password = $_POST["password"];
+    $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
     $conn = $link;
 
     // Start a transaction to ensure consistency across multiple table inserts

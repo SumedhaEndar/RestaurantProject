@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } elseif (strlen(trim($_POST["password"])) < 6) {
         $password_err = "Password must have at least 6 characters.";
     } else {
-        $password = trim($_POST["password"]);
+        $password = password_hash(trim($_POST["password"]), PASSWORD_DEFAULT);
     }
 
     // Validate phone number

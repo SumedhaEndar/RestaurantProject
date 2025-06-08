@@ -12,8 +12,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 	// Database Connection.
 	
 	$username = $_POST["username"];
-	$password = $_POST["password"];
-	$cpassword = $_POST["cpassword"];
+	if ($_POST['password'] !== $_POST['cpassword']) {
+    echo "<script>alert('Passwords do not match.');</script>";
+    exit;
+	} else {
+		$password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+	}
+
 			
 	
 	$sql = "Select * from users where username='$username'";

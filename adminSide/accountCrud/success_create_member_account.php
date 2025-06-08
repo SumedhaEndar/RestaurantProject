@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Get the values from the form
     $email = $_POST["email"];
     $phone_number = $_POST["phone_number"];
-    $password = $_POST["password"];
+    $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
     $membership_id = isset($_POST["membership_id"]) ? $_POST["membership_id"] : null;
     $staff_id = isset($_POST["staff_id"]) ? $_POST["staff_id"] : null;
 
