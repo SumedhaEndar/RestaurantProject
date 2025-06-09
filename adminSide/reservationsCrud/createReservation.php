@@ -40,7 +40,7 @@ $head_count = $_GET['head_count'] ?? 1;
                     <div id="availability-table">
                                 <?php
                                 $availableTimes = array();
-                                for ($hour = 10; $hour <= 20; $hour++) {
+                                for ($hour = 10; $hour <= 23; $hour++) {
                                     for ($minute = 0; $minute < 60; $minute += 60) {
                                         $time = sprintf('%02d:%02d:00', $hour, $minute);
                                         $availableTimes[] = $time;
