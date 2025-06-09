@@ -1,4 +1,4 @@
-CREATE DATABASE IF NOT EXISTS restaurantdbEvo; -- Change to your database name
+CREATE DATABASE IF NOT EXISTS restaurantdb; -- Change to your database name
 
 CREATE TABLE IF NOT EXISTS Menu (
   item_id VARCHAR(6) PRIMARY KEY,
@@ -57,6 +57,7 @@ CREATE TABLE IF NOT EXISTS Reservations (
   reservation_date DATE,
   head_count INT,
   special_request VARCHAR(255),
+  attended BOOLEAN,
   FOREIGN KEY (table_id) REFERENCES Restaurant_Tables(table_id)
 );
 
@@ -310,20 +311,19 @@ VALUES
   	('Bruce Lee', 1200, 29),
   	('Jackie Chan', 1350, 30);
 
-
-
 -- Reservations table
-INSERT INTO Reservations (reservation_id, customer_name, table_id, reservation_time, reservation_date, head_count, special_request)
+INSERT INTO Reservations (reservation_id, customer_name, table_id, reservation_time, reservation_date, head_count, special_request, attended)
 VALUES 
-(2220231, 'Abbel Tu Far Behind', 1, '22:00:34', '2023-09-28', 1, 'Prepare Panadol for me'),
-(2220232, 'Abignaile Lin Downney Jr', 2, '22:00:34', '2023-09-29', 1, 'Default Special Request'),
-(1920233, 'Jamie Mustafa', 3, '19:30:00', '2023-09-30', 2, 'Vegan options needed'),
-(2020234, 'Luke Gun Slinger', 4, '20:00:00', '2023-09-30', 3, 'Birthday celebration'),
-(1920235, 'Johny Rings', 5, '19:45:00', '2023-10-01', 2, 'Quiet corner, please'),
-(1820237, 'Jean Ng', 7, '18:30:00', '2023-10-03', 2, 'Allergies: peanuts'),
-(1920239, 'Taylor Swift', 9, '19:15:00', '2023-10-05', 2, 'Surprise dessert for anniversary'),
-(1111111, 'Default', 9, '19:15:00', '2023-10-05', 2, 'Description'),
-(14202310, 'Bruce Lee', 10, '14:45:00', '2023-10-06', 3, 'Window seat, if available');
+(2220231, 'Abbel Tu Far Behind', 1, '22:00:34', '2023-09-28', 1, 'Prepare Panadol for me', TRUE),
+(2220232, 'Abignaile Lin Downney Jr', 2, '22:00:34', '2023-09-29', 1, 'Default Special Request', TRUE),
+(1920233, 'Jamie Mustafa', 3, '19:30:00', '2023-09-30', 2, 'Vegan options needed', TRUE),
+(2020234, 'Luke Gun Slinger', 4, '20:00:00', '2023-09-30', 3, 'Birthday celebration', TRUE),
+(1920235, 'Johny Rings', 5, '19:45:00', '2023-10-01', 2, 'Quiet corner, please', TRUE),
+(1820237, 'Jean Ng', 7, '18:30:00', '2023-10-03', 2, 'Allergies: peanuts', TRUE),
+(1920239, 'Taylor Swift', 9, '19:15:00', '2023-10-05', 2, 'Surprise dessert for anniversary', TRUE),
+(1111111, 'Default', 9, '19:15:00', '2023-10-05', 2, 'Description', TRUE),
+(14202310, 'Bruce Lee', 10, '14:45:00', '2023-10-06', 3, 'Window seat, if available', TRUE);
+
 
 INSERT INTO card_payments (card_id, account_holder_name, card_number, expiry_date, security_code)
 VALUES

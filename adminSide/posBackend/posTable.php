@@ -48,9 +48,9 @@ require_once '../config.php'; // Include your database configuration
                         $endTime = date("H:i:s"); // Get the current time, you can change this to your selected time
 
                         // Calculate the end time of the 20-minute range
-                        $startTime = date("H:i:s", strtotime($endTime) - (20 * 60));
+                        $startTime = date("H:i:s", strtotime($endTime) - (50 * 60));
                         // Check if there's a reservation within the 20-minute range
-                        $reservationQuery = "SELECT * FROM reservations WHERE table_id = $table_id AND reservation_date = '$selectedDate' AND reservation_time BETWEEN '$startTime' AND '$endTime'";
+                        $reservationQuery = "SELECT * FROM reservations WHERE table_id = $table_id AND reservation_date = '$selectedDate' AND reservation_time BETWEEN '$startTime' AND '$endTime' AND (attended IS NULL OR attended != 1)";
                         $reservationResult = mysqli_query($link, $reservationQuery);
                         
                         //Show all reservations
