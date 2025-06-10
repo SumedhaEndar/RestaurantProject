@@ -20,6 +20,7 @@ $sides = mysqli_fetch_all($resultsides, MYSQLI_ASSOC);
 if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
     echo '<div class="user-profile">';
     echo 'Welcome, ' . $_SESSION["member_name"] . '!';
+    echo '<a href="../home/dashboard.php">Dashboard</a>';
     echo '<a href="../customerProfile/profile.php">Profile</a>';
     echo '</div>';
     
