@@ -88,3 +88,5 @@
 
 ## If you want to put a password for the database, change the config.php files.
 
+## Improvement by Group 6 - Software Evo
+![alt text](https://github.com/SumedhaEndar/RestaurantProject/blob/Edit-README.md/RestaurantProjectImages/AttendedField.png)
