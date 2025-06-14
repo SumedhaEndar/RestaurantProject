@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                             if ($membership_row) {
                                 $_SESSION["account_id"] = $membership_row["account_id"];
-                                header("location: ../home/home.php"); // Redirect to the home page
+                                header("location: ../home/dashboard.php"); // Redirect to the home page
                                 exit;
                             } else {
                                 // No membership details found
