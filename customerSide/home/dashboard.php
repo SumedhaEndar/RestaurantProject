@@ -1,52 +1,92 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 session_start();
-require_once '../../config.php';
 
-// Check if the user is logged in
+require_once '../config.php';
+
+// Check if user is logged in
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     header("Location: ../customerLogin/login.php");
     exit();
 }
 
-$account_id = $_SESSION['account_id'];
+$account_id = $_SESSION['account_id'] ?? null;
+if (!$account_id) {
+    die("Account ID not found in session.");
+}
 
-// Fetch the account details
-$sql_customer = "SELECT member_name, loyalty_points FROM Memberships WHERE account_id = ?";
-$stmt = mysqli_prepare($link, $sql_customer);
-mysqli_stmt_bind_param($stmt, "i", $account_id);
-mysqli_stmt_execute($stmt);
-$result = mysqli_stmt_get_result($stmt);
-$customer = mysqli_fetch_assoc($result);
+// Prepare and execute membership query
+$stmt = $link->prepare("SELECT member_id, member_name, points FROM Memberships WHERE account_id = ?");
+$stmt->bind_param("i", $account_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$member = $result->fetch_assoc();
 
-//Fetch recent orders
-$sql_orders = "SELECT order_id, order_date, status FROM Orders WHERE account_id = ? ORDER BY order_date DESC LIMIT 5";
-$stmt2 = mysqli_prepare($link, $sql_orders);
-mysqli_stmt_bind_param($stmt2, "i", $account_id);
-mysqli_stmt_execute($stmt2);
-$result2 = mysqli_stmt_get_result($stmt2);
-$orders = mysqli_fetch_all($result2, MYSQLI_ASSOC);
+if (!$member) {
+    die("Membership info not found.");
+}
+
+$member_id = $member['member_id'];
+
+// Prepare and execute bills query
+$stmt2 = $link->prepare("SELECT bill_id, bill_time, payment_method FROM Bills WHERE member_id = ? ORDER BY bill_time DESC LIMIT 5");
+$stmt2->bind_param("i", $member_id);
+$stmt2->execute();
+$result2 = $stmt2->get_result();
+$bills = $result2->fetch_all(MYSQLI_ASSOC);
 
 include('../components/header.php');
 ?>
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Customer Dashboard</title>
+    <!-- Link to your CSS file -->
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
 <main>
-    <h1>Welcome, <?php echo htmlspecialchars($customer['member_name']); ?>!</h1>
-    <p>Your Loyalty Points: <strong><?php echo htmlspecialchars($customer['loyalty_points']); ?></strong></p>
+    <h1>Welcome, <?php echo htmlspecialchars($member['member_name']); ?>!</h1>
+    <p>Your Loyalty Points: <strong><?php echo htmlspecialchars($member['points']); ?></strong></p>
 
     <section>
         <h2>Recent Orders</h2>
-        <?php if (count($orders) > 0): ?>
+        <?php if (empty($bills)): ?>
             <p>You have no recent orders.</p>
         <?php else: ?>
-            <ul>
-                <?php foreach ($orders as $order): ?>
-                    <li>
-                        Order #<?php echo $order['order_id']; ?> -
-                        <?php echo date ("d M Y", strtotime($order['order_date'])); ?> -
-                        Status: <?php echo htmlspecialchars($order['status']); ?>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
+            <?php foreach ($bills as $bill): ?>
+                <div style="margin-bottom: 20px;">
+                    <h3>Order #<?php echo $bill['bill_id']; ?> - 
+                        <?php echo date("d M Y H:i", strtotime($bill['bill_time'])); ?> 
+                        (Payment: <?php echo htmlspecialchars($bill['payment_method']); ?>)
+                    </h3>
+                    <ul>
+                        <?php
+                        $stmt3 = $link->prepare("SELECT Menu.item_name, Bill_Items.quantity FROM Bill_Items JOIN Menu ON Bill_Items.item_id = Menu.item_id WHERE Bill_Items.bill_id = ?");
+                        if (!$stmt3) {
+                            echo "<li>Error preparing statement for bill items.</li>";
+                        } else {
+                            $stmt3->bind_param("i", $bill['bill_id']);
+                            $stmt3->execute();
+                            $result3 = $stmt3->get_result();
+                            $items = $result3->fetch_all(MYSQLI_ASSOC);
+                            if (empty($items)) {
+                                echo "<li>No items found for this order.</li>";
+                            } else {
+                                foreach ($items as $item) {
+                                    echo "<li>" . htmlspecialchars($item['item_name']) . " x " . htmlspecialchars($item['quantity']) . "</li>";
+                                }
+                            }
+                        }
+                        ?>
+                    </ul>
+                </div>
+            <?php endforeach; ?>
         <?php endif; ?>
     </section>
 </main>

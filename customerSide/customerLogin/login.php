@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                             if ($membership_row) {
                                 $_SESSION["account_id"] = $membership_row["account_id"];
-                                header("location: ../home/dashboard.php"); // Redirect to the home page
+                                header("location: ../home/home.php"); // Redirect to the home page
                                 exit;
                             } else {
                                 // No membership details found
@@ -75,7 +75,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         // Password is incorrect
                         $password_err = "Invalid password. Please try again.";
                     }
-
 
                 } else {
                     // No matching records found
@@ -102,7 +101,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <style>
         
 
-
 /* Style for the container within login.php */
 .login-container {
   padding: 50px; /* Adjust the padding as needed */
@@ -110,7 +108,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   margin: 100px auto; /* Center the container horizontally */
   max-width: 500px; /* Set a maximum width for the container */
 }
-
 
 
         body {
@@ -185,3 +182,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 </body>
 </html>
+

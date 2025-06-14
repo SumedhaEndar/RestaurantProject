@@ -1,7 +1,6 @@
 <?php
 require_once '../config.php';
 
-
 $sqlmainDishes = "SELECT * FROM Menu WHERE item_category = 'Main Dishes' ORDER BY item_type; ";
 $resultmainDishes = mysqli_query($link, $sqlmainDishes);
 $mainDishes = mysqli_fetch_all($resultmainDishes, MYSQLI_ASSOC);
@@ -15,12 +14,10 @@ $resultsides = mysqli_query($link, $sqlsides);
 $sides = mysqli_fetch_all($resultsides, MYSQLI_ASSOC);
 
 
-
 // Check if the user is logged in
 if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
     echo '<div class="user-profile">';
     echo 'Welcome, ' . $_SESSION["member_name"] . '!';
-    echo '<a href="../home/dashboard.php">Dashboard</a>';
     echo '<a href="../customerProfile/profile.php">Profile</a>';
     echo '</div>';
     
@@ -84,7 +81,6 @@ if (strpos($current_url, "localhost/customerSide/home/home.php") !== false) {
 <?php
 }
 ?>
-
 
 
 
@@ -154,7 +150,6 @@ $result = mysqli_query($link, $query);
 // Close the database connection
 mysqli_close($link);
 ?>
-
 
                                     </div>
                                 </div>
