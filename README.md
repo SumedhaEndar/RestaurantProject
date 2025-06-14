@@ -74,6 +74,7 @@
 ![alt text](https://github.com/Brynlai/RestaurantProject/blob/main/RestaurantProjectImages/salespanel.png?raw=true)
 ![alt text](https://github.com/Brynlai/RestaurantProject/blob/main/RestaurantProjectImages/statisticspanel.png?raw=true)
 ![alt text](https://github.com/Brynlai/RestaurantProject/blob/main/RestaurantProjectImages/profilespanel.png?raw=true)
+![alt text](https://github.com/Brynlai/RestaurantProject/blob/main/RestaurantProjectImages/updated_reservationPage.png?raw=true)
 
 
 
