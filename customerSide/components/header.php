@@ -5,6 +5,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 require_once '../config.php';
 
+$base_path = '/RestaurantProject/customerSide';
 // Initialize variables for member info if logged in
 $member_name = '';
 $points = 0;
@@ -57,7 +58,7 @@ $current_url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
         <div class="header container">
             <div class="nav-bar">
                 <div class="brand">
-                    <a class="nav-link" href="../home/home.php#hero">
+                    <a class="nav-link" href="<?= $base_path ?>/home/home.php#hero">
                         <h1 class="text-center" style="font-family:Copperplate; color:whitesmoke;"> JOHNNY'S</h1>
                         <span class="sr-only"></span>
                     </a>
@@ -68,15 +69,15 @@ $current_url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
                         <div class="navbar">
                             <ul>
                                 <li>
-                                    <a href="<?= strpos($current_url, "localhost/customerSide/home/home.php") !== false ? "#hero" : "/customerSide/home/home.php" ?>" data-after="Home">Home</a>
+                                    <a href="<?= $base_path ?>/home/home.php#hero" data-after="Home">Home</a>
                                 </li>
 
-                                <?php if (strpos($current_url, "localhost/customerSide/home/home.php") !== false): ?>
+                                <?php if (strpos($current_url, "{$base_path}/home/home.php") !== false): ?>
                                     <li><a href="#projects" data-after="Projects">Menu</a></li>
                                     <li><a href="#about" data-after="About">About</a></li>
                                     <li><a href="#contact" data-after="Contact">Contact</a></li>
                                 <?php else: ?>
-                                    <li><a href="../CustomerReservation/reservePage.php" data-after="Service">Reservation</a></li>
+                                    <li><a href="<?= $base_path ?>/CustomerReservation/reservePage.php" data-after="Service">Reservation</a></li>
                                     <li><a href="../../adminSide/StaffLogin/login.php" data-after="Staff">Staff</a></li>
                                 <?php endif; ?>
 
