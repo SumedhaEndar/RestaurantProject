@@ -46,10 +46,10 @@ include('../components/header.php');
 <head>
     <meta charset="UTF-8" />
     <title>Dashboard - Johnny's</title>
-    <link rel="stylesheet" href="../css/style.css" />
+    
     <link rel="stylesheet" href="../css/dashboard.css" />
 </head>
-<body>
+<body class="dashboard-page">
 
 <main>
     <h1>Welcome, <?php echo htmlspecialchars($member['member_name']); ?>!</h1>

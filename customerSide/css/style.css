@@ -108,7 +108,7 @@ p {
 	justify-content: center;
 	align-items: center;
 	z-index: 1;
-	overflow-x: hidden;
+	overflow-x: visible;
 	transition: 0.5s ease left;
 }
 #header .nav-list ul.active {
