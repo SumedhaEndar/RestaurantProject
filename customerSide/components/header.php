@@ -34,6 +34,8 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true && $account_i
     }
 }
 
+$current_script = basename($_SERVER['SCRIPT_NAME']);
+
 // Define current URL for menu logic
 $current_url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 ?>
@@ -81,7 +83,7 @@ $current_url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
                                     <li><a href="../../adminSide/StaffLogin/login.php" data-after="Staff">Staff</a></li>
                                 <?php endif; ?>
 
-                                <div class="dropdown">
+                                <li class="dropdown">
                                     <button class="dropbtn">ACCOUNT <i class="fa fa-caret-down" aria-hidden="true"></i></button>
                                     <div class="dropdown-content">
                                         <?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true && $account_id): ?>
@@ -103,7 +105,7 @@ $current_url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
                                             <a class="login-link" style="color: white; font-size:15px;" href="../customerLogin/login.php">Log In</a>
                                         <?php endif; ?>
                                     </div>
-                                </div>
+                                </li>
                             </ul>
                         </div>
                     </div>
