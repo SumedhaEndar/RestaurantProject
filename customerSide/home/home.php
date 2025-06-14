@@ -1,3 +1,5 @@
+Home.php
+
 <?php include_once('../components/header.php')?>
 <!-- Hero Section with Video Background and Text Overlay -->
 <section id="hero" style="position: relative;">
@@ -131,7 +133,6 @@
     </div>
   </section>
   <!-- End menu Section -->
-
 
   
   <!-- About Section -->
