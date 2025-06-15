@@ -28,6 +28,11 @@ if (!$member) {
     die("Membership info not found.");
 }
 
+$customer_name = $member['member_name'] ?? null;
+if (!$customer_name) {
+    die("Customer name not found.");
+}
+
 $member_id = $member['member_id'];
 
 // Fetch recent bills/orders
@@ -37,6 +42,17 @@ $stmt2->execute();
 $result2 = $stmt2->get_result();
 $bills = $result2->fetch_all(MYSQLI_ASSOC);
 $stmt2->close();
+
+// Fetch reservation history
+var_dump($customer_name);
+
+$stmt3 = $link->prepare("SELECT reservation_id, customer_name, table_id, reservation_time, reservation_date, head_count, special_request FROM Reservations ORDER BY reservation_date DESC, reservation_time DESC LIMIT 5");
+$stmt3->bind_param("i", $customer_name);
+$stmt3->execute();
+$result3 = $stmt3->get_result();
+$reservations = $result3->fetch_all(MYSQLI_ASSOC);
+$stmt3->close();
+
 
 include('../components/header.php');
 ?>
@@ -93,6 +109,26 @@ include('../components/header.php');
         <?php endif; ?>
     </section>
 </main>
+<section>
+  <h2>Your Reservation History</h2>
+  <?php if (empty($reservations)): ?>
+    <p>No reservation history found.</p>
+  <?php else: ?>
+    <ul>
+    <?php foreach ($reservations as $res): ?>
+      <li>Reservation #<span style="<?= ($res['customer_name'] === $member_name) ? 'font-weight:bold; color:crimson;' : '' ?>">
+        <?= htmlspecialchars($res['reservation_id']); ?>
+    </span></h3>
+        <p><span>Date:</span> <?= htmlspecialchars($res['reservation_date']); ?></p>
+        <p><span>Time:</span> <?= htmlspecialchars($res['reservation_time']); ?></p>
+        <p><span>Table:</span> <?= htmlspecialchars($res['table_id']); ?></p>
+        <p><span>Guests:</span> <?= htmlspecialchars($res['head_count']); ?></p>
+        <p><span>Special Request:</span> <?= htmlspecialchars($res['special_request']); ?></p>
+    </li>
+    <?php endforeach; ?>
+    </ul>
+  <?php endif; ?>
+</section>
 
 </body>
 </html>
