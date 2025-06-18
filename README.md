@@ -75,7 +75,6 @@
 ![alt text](https://github.com/Brynlai/RestaurantProject/blob/main/RestaurantProjectImages/statisticspanel.png?raw=true)
 ![alt text](https://github.com/Brynlai/RestaurantProject/blob/main/RestaurantProjectImages/profilespanel.png?raw=true)
 ![alt text](https://github.com/Brynlai/RestaurantProject/blob/main/RestaurantProjectImages/updated_reservationPage.png?raw=true)
-![alt text](https://github.com/Brynlai/RestaurantProject/blob/main/RestaurantProjectImages/passwordhashed_db.png?raw=true)
 
 
 
@@ -92,3 +91,4 @@
 
 ## Improvement by Group 6 - Software Evo
 ![alt text](https://github.com/SumedhaEndar/RestaurantProject/blob/Edit-README.md/RestaurantProjectImages/AttendedField.png)
+![alt text](https://github.com/SumedhaEndar/RestaurantProject/blob/Edit-README.md/RestaurantProjectImages/passwordhashed_db.png)
