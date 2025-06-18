@@ -91,3 +91,4 @@
 ## Improvement by Group 6 - Software Evo
 ![alt text](https://github.com/SumedhaEndar/RestaurantProject/blob/Edit-README.md/RestaurantProjectImages/AttendedField.png)
 ![alt text](https://github.com/SumedhaEndar/RestaurantProject/blob/Edit-README.md/RestaurantProjectImages/passwordhashed_db.png)
+![alt text](https://github.com/SumedhaEndar/RestaurantProject/blob/main/RestaurantProjectImages/reservation_page_update.jpg)
